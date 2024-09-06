@@ -16,7 +16,8 @@ pd.set_option('display.width', None)
 train_data = pd.read_csv("ctr_21.csv")
 
 # Cargar los datos de validacion 
-val_data = pd.read_csv("ctr_20.csv")
+val_data = pd.read_csv("ctr_19.csv")
+val_data =  val_data.sample(frac=1/10)
 y_val = val_data["Label"]
 x_val = val_data.drop(columns=["Label"])
 x_val = x_val.select_dtypes(include='number')
@@ -38,11 +39,12 @@ rf = RandomForestClassifier(random_state=42)
 
 # grilla de parámetros para la búsqueda
 param_grid = {
-    'n_estimators': [100, 150],  		# Número de árboles en el bosque
-    'max_depth': [None, 10],  			# Profundidad máxima del árbol
-    'min_samples_split': [2, 4],    	# Número mínimo de muestras requeridas para dividir un nodo
-    'min_samples_leaf': [1, 2]  	  	# Número mínimo de muestras requeridas en un nodo hoja
+    'n_estimators': [50, 100],  # Menos árboles
+    'max_depth': [10, 20],      # Solo dos valores de profundidad
+    'min_samples_split': [2, 5],# Reduzco las opciones
+    'min_samples_leaf': [1, 2]  # Solo dos valores
 }
+
 
 
 # hacemos la búsqueda exhausitiva de los parámetros con sckill-learn
